@@ -1,4 +1,4 @@
-#Setup
+# Setup
 
 Two Python Bluetooth Libraries are needed: pygatt and pygattlib
 
@@ -9,11 +9,11 @@ Pygattlib and it’s installation instructions can be found here:
 https://bitbucket.org/OscarAcena/pygattlib
 
 
-Install dependencies:
+# Install dependencies:
 sudo apt-get install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev -y
 
-Install libraries:
+# Install libraries:
 sudo pip install pygatt gattlib pexpect
 
-Run:
+# Run:
 sudo python main.py
