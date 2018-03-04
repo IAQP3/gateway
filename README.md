@@ -13,7 +13,16 @@ https://bitbucket.org/OscarAcena/pygattlib
 sudo apt-get install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev -y
 
 # Install libraries:
+Python 2:
 sudo pip install pygatt gattlib pexpect
+
+Python 3:
+sudo pip3 install pygatt pexpect
+pip3 download gattlib
+tar xvzf ./gattlib-0.20150805.tar.gz
+cd gattlib-0.20150805/
+sed -ie 's/boost_python-py34/boost_python-py35/' setup.py
+sudo pip3 install .
 
 # Run:
 sudo python main.py
