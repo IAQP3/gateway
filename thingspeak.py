@@ -4,12 +4,17 @@ import time
 import requests
 import xml.etree.ElementTree as xmlTree
 
+#Bluetooth
+from gattlib import DiscoveryService, GATTRequester
+
 #Color sensor
 import Adafruit_TCS34725
 import smbus
-tcs = Adafruit_TCS34725.TCS34725(integration_time=Adafruit_TCS34725.TCS34725_INTEGRATIONTIME_700MS, gain=Adafruit_TCS34725.TCS34725_GAIN_1X)
-
-
+try:
+	tcs = Adafruit_TCS34725.TCS34725(integration_time=Adafruit_TCS34725.TCS34725_INTEGRATIONTIME_700MS, gain=Adafruit_TCS34725.TCS34725_GAIN_1X)
+except(OSError):
+	print("Color sensor not found")
+	
 def read_sensor():
 	
 	# Disable interrupts
@@ -30,14 +35,46 @@ def read_sensor():
 	return rdata
 
 def main():
+	#channel = Channel()
+	#ts = Thingspeak()
 	
-	data = {'lol':1}
 	
-	channel = Channel()
-	ts = Thingspeak()
+	address = "D5:21:56:28:B0:AF"
 	
-	print(ts.get_channels())
+	service = DiscoveryService("hci0")
+	devices = service.discover(2)
+
+	for address, name in devices.items():
+		print("name: {}, address: {}".format(name, address))
 	
+	sensor = Thingy(address)
+	
+	sensor.connect()
+	print(sensor.get_primary())
+	sensor.disconnect()
+
+
+class Thingy():
+	def __init__(self, address):
+		self.requester = GATTRequester(address, False)
+		
+	def connect(self):
+		print("Connecting...")
+		try:
+			self.requester.connect(True,"random") #must use "random" addressing type instead of "public"
+			print("OK!")
+		except(RuntimeError):
+			print("Failed")
+			
+
+	def disconnect(self):
+		self.requester.disconnect()
+		print("Disconnected.")
+	
+	def get_primary(self):
+		return self.requester.discover_primary()
+		
+		
 class Thingspeak():
 	def __init__(self):
 		self.channel_api_url = "https://api.thingspeak.com/channels.json"

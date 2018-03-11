@@ -19,12 +19,10 @@ class BlueDevices(object):
 
 	def search_BLE(self):
 		print("Searching bluetooth devices")
-		self.devices = self.service.discover(5)
+		self.devices = self.service.discover(2)
 		print("Done..\nFound devices:")
 		i = 0
-		for address, data in self.devices.items():
-			name = data['name']
-			data['num'] = i
+		for address, name in self.devices.items():
 			if name == "":
 				name = "No name"
 			print("{}. Name: {}, address: {}".format(i, name, address))
@@ -41,17 +39,15 @@ class BlueDevices(object):
 
 	def get_iaqp_device(self):
 		return_data = []
-		for address, data in self.devices.items():
-			dev_name = data['name']
-			if "IAQ Police" in dev_name :
+		for address, name in self.devices.items():
+			if "IAQ Sensor" in name:
 				return_dev = self.devices[address]
-				return_dev['address'] = address
+				print(return_dev)
 				return_data.append(return_dev)
 		return return_data
-
+		
 	def print_devices(self):
-		for address, data in self.devices.items():
-			name = data['name']
+		for address, name in self.devices.items():
 			if name == "":
 				name = "No name"
 			print("Name: {}, address: {}".format(name, address))
