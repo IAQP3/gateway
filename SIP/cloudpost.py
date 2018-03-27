@@ -106,8 +106,9 @@ class CloudPost(object):
         parsed_file = xml.etree.ElementTree.parse(self.settings_file).getroot()
         found_keys = parsed_file.find('api_keys')
         self.user_api_key = str(found_keys.find('user_api_key').text)
-        
+		
         found_addresses = parsed_file.find('thingspeak')
+		
         self.get_channel_info_url = str(found_addresses.find('info_address').text) + self.user_api_key
         self.create_channel_url = str(found_addresses.find('create_channel_address').text)
         self.api_post_url = str(found_addresses.find('post_address').text)

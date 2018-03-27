@@ -130,7 +130,7 @@ def preparePeripheral(device):
 	services = peripheral.getServices()
 	env_services = peripheral.getServiceByUUID(BLE_SERVICE_ENVIRONMENT)
 	print(env_services)
-	print(env_services.getCharacteristics().uuid)
+	print(env_services.getCharacteristics())
 	
 	for ser in services:
 		if ser.uuid == BLE_SERVICE_ENVIRONMENT:
